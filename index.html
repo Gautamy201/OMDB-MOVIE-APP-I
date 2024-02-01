@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OMDB MOVIE APP I</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .serch {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+      }
+      .serch p {
+        font-size: 25px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .serch input,
+      .serch button {
+        font-size: 20px;
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+      .movie-info {
+        width: 100%;
+        position: relative;
+        margin-top: 50px;
+      }
+      .movieTemplate {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        border-color: black;
+        border-style: solid;
+        border-width: 0px 2px 2px 2px;
+        width: 100%;
+      }
+      .movieTemplate h1 {
+        font-size: 25px;
+        border-color: black;
+        border-style: solid;
+        border-width: 2px 0px 2px 0px;
+        padding: 10px 10px;
+        background-color: rgb(8, 90, 108);
+        color: white;
+        text-align: center;
+      }
+      .movinfo-box {
+        display: flex;
+      }
+      .movinfo-box img {
+        margin: 10px 20px;
+        border: 1px solid black;
+      }
+      .movinfo p {
+        font-size: 20px;
+        font-weight: 600;
+        padding: 10px 20px;
+      }
+      .movinfo span {
+        font-size: 18px;
+        font-weight: normal;
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="serch">
+      <p>Serch Movies</p>
+      <div>
+        <input type="text" id="movie-title" placeholder="Enter a movie title" />
+        <button id="search-btn">Search</button>
+      </div>
+    </div>
+    <div id="movie-info" class="movie-info">
+      <div class="movieTemplate">
+        <h1>Show Output Here</h1>
+      </div>
+    </div>
+  </body>
+  <script>
+    let searchBtn = document.getElementById("search-btn");
+    searchBtn.addEventListener("click", () => {
+      let tittle = document.getElementById("movie-title").value;
+      let url = `https://www.omdbapi.com/?t=${tittle}&plot=full&apikey=7483cbaa`;
+
+      if (tittle.length > 0) {
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("movie-info").innerHTML = `<div class="movieTemplate">
+                <h1>${data.Title} (${data.Year})</h1>
+                <div class="movinfo-box">
+                    <img src="${data.Poster}" alt="Movie Poster">
+                    <div class="movinfo">
+                        <p>Movie Name: <span>${data.Title}</span></p>
+                        <p>Starcast: <span>${data.Actors}</span></p>
+                        <p>Description: <span>${data.Plot}</span></p>
+                        <p>Genre: <span>${data.Genre}</span></p>
+                        <p>Relese Date: <span>${data.Released}</span></p>
+                        <p>Duration: <span>${data.Runtime}</span></p>
+                    </div>
+                </div>
+            </div>`;
+          });
+      }else{
+        alert("Plese enter movie name")
+      }
+    });
+  </script>
+</html>
